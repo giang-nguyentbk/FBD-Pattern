@@ -1,7 +1,12 @@
 #include <iostream>
 #include <algorithm>
 #include <csignal>
+// For Windows MinGW
 #include <Windows.h>
+// For Linux 
+/* #include <chrono>
+#include <thread>
+*/
 using namespace std;
 
 bool running = true;
@@ -35,7 +40,8 @@ int main(int argc, char **argv) {
         // Scope
         cout << "Output: " << y << endl;
         // Sampling
-        Sleep(2000);
+        Sleep(2000); // For Windows MinGW
+        // this_thread::sleep_for(chrono::milliseconds(2000)); // For Linux
     }
 
     return 0;
