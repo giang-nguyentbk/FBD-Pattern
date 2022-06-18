@@ -6,7 +6,7 @@ CFLAGS = -o $(TARGET)/main.exe
 MODULE = ../module/src
 RM = rm -rf
 
-all: clean module main
+all: clean module main clean_object
 
 main: main.o
 	$(GCC) $(CFLAGS) *.o
@@ -22,3 +22,6 @@ run:
 
 clean:
 	$(RM) $(TARGET)/*.exe *.o
+
+clean_object:
+	$(RM) *.o
