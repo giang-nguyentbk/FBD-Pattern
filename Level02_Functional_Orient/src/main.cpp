@@ -34,7 +34,7 @@ int main(int argc, char **argv) {
         // Scope
         scope(y);
         // Sampling
-        sampling(Ts);
+        sample(Ts);
     }
 
     return 0;

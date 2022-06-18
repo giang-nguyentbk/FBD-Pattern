@@ -7,6 +7,6 @@ double gain(double K, double input);
 double limit(double Hi, double Lo, double input);
 double integrate(double Ti, double Ts, double input);
 void scope(double ouput);
-void sampling(double Ts);
+void sample(double Ts);
 
 #endif //_FUNCTION_BLOCK_H_

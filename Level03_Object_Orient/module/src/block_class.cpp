@@ -1,43 +1,41 @@
 #include <iostream>
+#include "../header/block_class.h"
 // For Windows MinGW
 #include <Windows.h>
 // For Linux 
 /* #include <chrono>
 #include <thread>
 */
-#include "../header/function_block.h"
-
 using namespace std;
 
-double step(double step) {
+double Step::operator()(double step) {
     return step;
 }
 
-double sum(double input1, double input2) {
+double Sum::operator()(double input1, double input2) {
     return input1 + input2;
 }
 
-double gain(double K, double input) {
+double Gain::operator()(double input) {
     return K*input;
 }
 
-double limit(double Hi, double Lo, double input) {
+double Limiter::operator()(double input) {
     if(input > Hi) input = Hi;
     if(input < Lo) input = Lo;
     return input;
 }
 
-double integrate(double Ti, double Ts, double input) {
-    static double ui = 0;
-    ui += input*Ts/Ti;
-    return ui;
+double Integrator::operator()(double input) {
+    I += input*Ts/Ti;
+    return I;
 }
 
-void scope(double output) {
-    cout << "Output: " << output << endl;
-}
-
-void sample(double Ts) {
+void Sample::operator()(double Ts) {
     Sleep((unsigned long)(Ts*1000)); // For Windows MinGW
     // this_thread::sleep_for(chrono::milliseconds((unsigned long)(Ts*1000))); // For Linux
+}
+
+void Scope::operator()(double output) {
+    cout << "Output: " << output << endl;
 }
