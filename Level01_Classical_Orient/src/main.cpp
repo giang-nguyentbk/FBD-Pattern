@@ -40,8 +40,8 @@ int main(int argc, char **argv) {
         // Scope
         cout << "Output: " << y << endl;
         // Sampling
-        Sleep(2000); // For Windows MinGW
-        // this_thread::sleep_for(chrono::milliseconds(2000)); // For Linux
+        Sleep((unsigned long)(Ts*1000)); // For Windows MinGW
+        // this_thread::sleep_for(chrono::milliseconds((unsigned long)(Ts*1000))); // For Linux
     }
 
     return 0;
