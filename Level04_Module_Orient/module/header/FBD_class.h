@@ -13,7 +13,7 @@ class FB {
         virtual void execute() = 0;
         double* getOutputPort(int i=0);
         void setInputPort(double* pFromOutputPort, int i=0);
-        //friend class FBD;
+        friend class FBD;
 };
 
 class Step : public FB {
@@ -24,13 +24,26 @@ class Step : public FB {
         void execute();
 };
 
-// class Sum : public FB {
-//     public:
-//         void addInput(bool sign);
-//     private:
-//         vector<bool> sign;
-//         void execute();
-// };
+class Sum : public FB {
+    public:
+        Sum(vector<bool> psign);
+    private:
+        vector<bool> sign;
+        void execute();
+};
+
+class FBD : public vector<FB* > {
+    private:
+        double Ts;
+        bool running;
+    public:
+        FBD(double ts=0.5);
+        ~FBD();
+        void addFB(FB* p);
+        void connect(int fb1, int fb2, int fb1_outport=0, int fb2_inport=0);
+        void start();
+        void stop();
+};
 
 // class Gain : public FB {
 //     public:
