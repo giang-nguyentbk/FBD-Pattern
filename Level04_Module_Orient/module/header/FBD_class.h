@@ -66,8 +66,9 @@ class Sample : public FB {
 
 class Scope : public FB {
     public:
-        Scope();
+        Scope(int numChannel=1);
     private:
+        int numberChannel;
         void execute();
 };
 

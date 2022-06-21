@@ -14,7 +14,7 @@ int main() {
     fbd.addFB(new Limiter(10, -10)); //3
     fbd.addFB(new Integrator(10, Ts)); //4
     fbd.addFB(new Delay(2*Ts, Ts)); //5
-    fbd.addFB(new Scope); //6
+    fbd.addFB(new Scope(1)); //6
     fbd.connect(0, 1, 0, 0);
     fbd.connect(5, 1, 0, 1);
     fbd.connect(1, 2, 0, 0);

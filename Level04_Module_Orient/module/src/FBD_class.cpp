@@ -129,15 +129,17 @@ void Sample::execute() {
     }   
 }
 
-Scope::Scope() {
-    input.assign(1, nullptr);
+Scope::Scope(int numChannel) : numberChannel(numChannel) {
+    input.assign(numberChannel, nullptr);
 }
 
 void Scope::execute() {
-    if(nullptr != input[0]) {
-        cout << "Scope: Output = " << *(input[0]) << endl; 
-    } else {
-        cout << "Scope: Input is not connected!" << endl;
+    for(int i=0; i<numberChannel; i++) {
+        if(nullptr != input[i]) {
+            cout << "Channel " << i << ": Output = " << *(input[i]) << endl; 
+        } else {
+            cout << "Scope: Input " << i << " is not connected!" << endl;
+        }
     }   
 }
 
