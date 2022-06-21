@@ -71,6 +71,17 @@ class Scope : public FB {
         void execute();
 };
 
+class Delay : public FB {
+    public:
+        Delay(double td=0, double ts=1);
+    private:
+        vector<double> buffer;
+        int buffsize;
+        double Td, Ts;
+        void execute();
+        void createBuffer(int size);
+};
+
 class FBD : public vector<FB* > {
     private:
         double Ts;

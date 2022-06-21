@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cmath>
 // For Windows MinGW
 #include <Windows.h>
 // For Linux 
@@ -138,6 +139,43 @@ void Scope::execute() {
     } else {
         cout << "Scope: Input is not connected!" << endl;
     }   
+}
+
+Delay::Delay(double td, double ts) : Td(td), Ts(ts) {
+    if(Td >= 0 && Ts > 0) {
+        createBuffer((int) ceil(Td/Ts));
+    }
+    input.assign(1, nullptr);
+    output.assign(1, new double[1]);
+    *(output[0]) = 0.0;
+}
+
+void Delay::execute() {
+    if(nullptr != input[0]) {
+        
+        if(buffsize > 0) {
+            for(int i=0; i<buffsize; i++) {
+                *(output[0]) = buffer[0];
+                for(int i=0; i<buffer.size() - 1; i++) {
+                    buffer[i] = buffer[i+1];
+                }
+                buffer[buffsize-1] = *(input[0]);
+                Sleep((unsigned long)(Ts*1000)); // For Windows MinGW
+                // this_thread::sleep_for(chrono::milliseconds((unsigned long)(Ts*1000))); // For Linux
+            }
+        } else {
+            *(output[0]) = *(input[0]);
+        }
+            
+        
+    } else {
+        cout << "Delay: Input is not connected!" << endl;
+    }   
+}
+
+void Delay::createBuffer(int size) {
+    buffsize = size;
+    buffer.assign(buffsize, 0.0);
 }
 
 FBD::FBD(double ts) : Ts(ts>0 ? ts : 1), running(true) {}
