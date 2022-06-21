@@ -22,7 +22,7 @@ double* FB::getOutputPort(int i) {
     if(i>= 0 && i < output.size())
         return output.at(i);
     else {
-        cout << "output at " << i << "out of range!" << endl;
+        cout << "Get output at " << i << "out of range!" << endl;
         return nullptr;
     }
 }
@@ -31,7 +31,7 @@ void FB::setInputPort(double* pFromOutputPort, int i) {
     if(i>= 0 && i < input.size())
         input[i] = pFromOutputPort;
     else {
-        cout << "input at " << i << " out of range!" << endl;
+        cout << "Set input at " << i << " out of range!" << endl;
     }
 }
 
@@ -41,14 +41,12 @@ Step::Step(double r) : R(r) {
 
 void Step::execute() {
     *(output[0]) = R;
-    cout << "Step output = " << *(output[0]) << endl;
 }
 
 Sum::Sum(vector<bool> psign) {
     sign = psign;
     input.assign(psign.size(), nullptr);
     output.push_back(new double[1]);
-    *(output[0]) = 0;
 }
 
 void Sum::execute() {
@@ -57,10 +55,89 @@ void Sum::execute() {
         if(nullptr != input[i]) {
             *(output[0]) += sign[i] ? *(input[i]) : -*(input[i]);
         } else {
-            cout << "Input " << i << " is not connected!" << endl;
+            cout << "Sum: Input " << i << " is not connected!" << endl;
+            return;
         }
     }
-    cout << "Sum output = " << *(output[0]) << endl;    
+}
+
+Gain::Gain(double k) {
+    K = k;
+    input.assign(1, nullptr);
+    output.push_back(new double[1]);
+    *(output[0]) = 0;
+}
+
+void Gain::execute() {
+    if(nullptr != input[0]) {
+        *(output[0]) = K*(*(input[0]));
+    } else {
+        cout << "Gain: Input is not connected!" << endl;
+    }   
+}
+
+Limiter::Limiter(double hi, double lo) {
+    Hi = hi;
+    Lo = lo;
+    input.assign(1, nullptr);
+    output.push_back(new double[1]);
+    *(output[0]) = 0;
+}
+
+void Limiter::execute() {
+    if(nullptr != input[0]) {
+        if(*(input[0]) > Hi) *(output[0]) = Hi;
+        else if(*(input[0]) < Lo) *(output[0]) = Lo;
+        else *(output[0]) = *(input[0]);
+    } else {
+        cout << "Limiter: Input is not connected!" << endl;
+    }   
+}
+
+Integrator::Integrator(double ti, double ts) {
+    Ti = ti;
+    Ts = ts;
+    input.assign(1, nullptr);
+    output.push_back(new double[1]);
+    *(output[0]) = 0;
+}
+
+void Integrator::execute() {
+    if(nullptr != input[0]) {
+        *(output[0]) += *(input[0])*Ts/Ti;
+    } else {
+        cout << "Integrator: Input is not connected!" << endl;
+    }   
+}
+
+Sample::Sample(double ts) {
+    Ts = ts;
+    input.assign(1, nullptr);
+    output.push_back(new double[1]);
+    *(output[0]) = 0;
+}
+
+void Sample::execute() {
+    if(nullptr != input[0]) {
+        Sleep((unsigned long)(Ts*1000)); // For Windows MinGW
+        // this_thread::sleep_for(chrono::milliseconds((unsigned long)(Ts*1000))); // For Linux
+
+        *(output[0]) = *(input[0]);
+    } else {
+        cout << "Sample: Input is not connected!" << endl;
+    }   
+}
+
+Scope::Scope() {
+    input.assign(1, nullptr);
+}
+
+void Scope::execute() {
+    if(nullptr != input[0]) {
+        cout << "Scope: Output = " << *(input[0]) << endl; 
+    } else {
+        cout << "Scope: Input is not connected!" << endl;
+    }   
 }
 
 FBD::FBD(double ts) : Ts(ts>0 ? ts : 1), running(true) {}
@@ -86,75 +163,9 @@ void FBD::start() {
         for(int i=0; i<size(); i++) {
             at(i)->execute();
         }
-        Sleep((unsigned long)(Ts*1000)); // For Windows MinGW
-        // this_thread::sleep_for(chrono::milliseconds((unsigned long)(Ts*1000))); // For Linux
     }
 }
 
 void FBD::stop() {
     running = false;
 }
-
-// Gain::Gain(double k=1){
-
-// }
-
-// void Gain::execute() {
-
-// }
-
-// double* Gain::getOutputPort(int i=0) {
-
-// }
-
-// void Gain::setInputPort(double* pFromOutputPort, int i=0) {
-    
-// }
-
-// Limiter::Limiter(double hi=10, double lo=-10){
-
-// }
-
-// void Limiter::execute() {
-
-// }
-
-// double* Limiter::getOutputPort(int i=0) {
-
-// }
-
-// void Limiter::setInputPort(double* pFromOutputPort, int i=0) {
-    
-// }
-
-// Integrator::Integrator(double ti=5, double ts=0.5){
-
-// }
-
-// void Integrator::execute() {
-
-// }
-
-// double* Integrator::getOutputPort(int i=0) {
-
-// }
-
-// void Integrator::setInputPort(double* pFromOutputPort, int i=0) {
-    
-// }
-
-// Sample::Sample(double ts=0.5){
-
-// }
-
-// void Sample::execute() {
-
-// }
-
-// double* Sample::getOutputPort(int i=0) {
-
-// }
-
-// void Sample::setInputPort(double* pFromOutputPort, int i=0) {
-    
-// }

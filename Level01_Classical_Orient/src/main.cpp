@@ -37,11 +37,11 @@ int main(int argc, char **argv) {
         // Integrator
         ui += ul*Ts/Ti;
         y = ui;
-        // Scope
-        cout << "Output: " << y << endl;
         // Sample
         Sleep((unsigned long)(Ts*1000)); // For Windows MinGW
         // this_thread::sleep_for(chrono::milliseconds((unsigned long)(Ts*1000))); // For Linux
+        // Scope
+        cout << "Output: " << y << endl;
     }
 
     return 0;

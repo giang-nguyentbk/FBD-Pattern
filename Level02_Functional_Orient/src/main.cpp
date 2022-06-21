@@ -31,10 +31,10 @@ int main(int argc, char **argv) {
         // Integrator
         ui = integrate(Ti, Ts, ul);
         y = ui;
-        // Scope
-        scope(y);
         // Sampling
         sample(Ts);
+        // Scope
+        scope(y);
     }
 
     return 0;
