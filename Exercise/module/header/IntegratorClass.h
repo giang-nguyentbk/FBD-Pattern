@@ -1,14 +1,14 @@
-#ifndef _LIMITER_CLASS_H_
-#define _LIMITER_CLASS_H_
+#ifndef _INTEGRATOR_CLASS_H_
+#define _INTEGRATOR_CLASS_H_
 
 #include "FBClass.h"
 
-class Limiter : public FB {
+class Integrator : public FB {
     private:
-        double m_Hi, m_Lo;
+        double m_Ti, m_Ts;
         void execute();
     public:
-        Limiter(double hi=10, double lo=-10);
+        Integrator(double ti=5, double ts=0.5);
 };
 
-#endif // _LIMITER_CLASS_H_
+#endif // _INTEGRATOR_CLASS_H_

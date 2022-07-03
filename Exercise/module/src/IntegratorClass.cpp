@@ -1,25 +1,18 @@
 #include <iostream>
 #include <vector>
-#include "../header/LimiterClass.h"
+#include "../header/IntegratorClass.h"
 
 using namespace std;
 
-Limiter::Limiter(double hi, double lo) : m_Hi(hi), m_Lo(lo) {
+Integrator::Integrator(double ti, double ts) : m_Ti(ti), m_Ts(ts) {
     m_input.assign(1, nullptr);
     m_output.push_back(new double[1]);
 }
 
-void Limiter::execute() {
+void Integrator::execute() {
     if(nullptr != m_input[0]) {
-        if(*(m_input[0]) > m_Hi) {
-            *(m_output[0]) = m_Hi;
-        } else if (*(m_input[0]) < m_Lo) {
-            *(m_output[0]) = m_Lo;
-        } else {
-            *(m_output[0]) = *(m_input[0]);
-        }
-        
+        *(m_output[0]) += *(m_input[0])*m_Ts/m_Ti;
     } else {
-        cout << "Limiter: Input at 0 hasn't connected yet!" << endl;
+        cout << "Integrator: Input at 0 hasn't connected yet!" << endl;
     }
 }
