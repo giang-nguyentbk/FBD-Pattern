@@ -156,16 +156,14 @@ void Delay::execute() {
     if(nullptr != input[0]) {
         
         if(buffsize > 0) {
-            for(int i=0; i<buffsize; i++) {
-                *(output[0]) = buffer[0];
-                for(int i=0; i<buffer.size() - 1; i++) {
-                    buffer[i] = buffer[i+1];
-                }
-                buffer[buffsize-1] = *(input[0]);
-                Sleep((unsigned long)(Ts*1000)); // For Windows MinGW
-                // this_thread::sleep_for(chrono::milliseconds((unsigned long)(Ts*1000))); // For Linux
+            *(output[0]) = buffer[0];
+            for(int i=0; i<buffer.size() - 1; i++) {
+                buffer[i] = buffer[i+1];
             }
-        } else {
+            buffer[buffsize-1] = *(input[0]);
+            Sleep((unsigned long)(Ts*1000)); // For Windows MinGW
+            // this_thread::sleep_for(chrono::milliseconds((unsigned long)(Ts*1000))); // For Linux
+    } else {
             *(output[0]) = *(input[0]);
         }
             

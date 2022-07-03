@@ -25,15 +25,13 @@ Delay::Delay(double td, double ts) : m_Td(td), m_Ts(ts) {
 
 void Delay::execute() {
     if(nullptr != m_input[0]) {
-        for(int i=0; i<m_buffer.size(); i++) {
-            *(m_output[0]) = m_buffer[0];
-            for(int i=0; i<m_buffer.size()-1; i++) {
-                m_buffer[i] = m_buffer[i+1];
-            }
-            m_buffer[m_buffer.size()-1] = *(m_input[0]);
-            Sleep((unsigned long)(m_Ts*1000)); // For Windows MinGW
-                // this_thread::sleep_for(chrono::milliseconds((unsigned long)(Ts*1000))); // For Linux
+        *(m_output[0]) = m_buffer[0];
+        for(int i=0; i<m_buffer.size()-1; i++) {
+            m_buffer[i] = m_buffer[i+1];
         }
+        m_buffer[m_buffer.size()-1] = *(m_input[0]);
+        Sleep((unsigned long)(m_Ts*1000)); // For Windows MinGW
+            // this_thread::sleep_for(chrono::milliseconds((unsigned long)(Ts*1000))); // For Linux
         
     } else {
         cout << "Delay: Input at 0 hasn't connected yet!" << endl;
