@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "../header/FBClass.h"
+
 using namespace std;
 
 FB::~FB() {

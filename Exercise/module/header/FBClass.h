@@ -2,7 +2,6 @@
 #define _FB_CLASS_H_
 
 #include <vector>
-#include "FBDClass.h"
 using namespace std;
 
 class FB {

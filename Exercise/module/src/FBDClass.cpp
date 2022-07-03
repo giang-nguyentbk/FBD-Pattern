@@ -1,4 +1,5 @@
 #include <vector>
+#include "../header/FBClass.h"
 #include "../header/FBDClass.h"
 
 using namespace std;

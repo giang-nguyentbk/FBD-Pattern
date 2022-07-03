@@ -6,7 +6,7 @@
 
 using namespace std;
 
-class FBD : public vector<FB*> {
+class FBD : public vector<FB* > {
     private:
         double Ts;
         bool running;
